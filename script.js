@@ -51,19 +51,47 @@ const createForm = (event) => {
   submitBtn.value = "submit";
   innerFormContainer.appendChild(submitBtn);
 
-  const createInnerForm = (event) => {
-    // event.stopPropagation();
+  const submitQuestion = (event) => {
+    event.preventDefault();
+
+    console.log(questionInput.value);
+    localStorage.setItem(`question${questionNumb}`, questionInput.value);
+    localStorage.setItem(`answerType${questionNumb}`, answerTypeSelect.value);
+
+    //stworzyć tablicę i usunąć przypisując wspólny atrybut/classę?
+    event.currentTarget.style.display = "none";
+    questionInput.style.display = "none";
+    selectLabel.style.display = "none";
+    answerTypeSelect.style.display = "none";
+
+    const answerLabel = document.createElement("label");
+    answerLabel.setAttribute("for", `select${questionNumb}`);
+    answerLabel.innerText = `${questionInput.value}`;
+    innerFormContainer.appendChild(answerLabel);
+
+    const answerInput = document.createElement("input");
+    answerInput.setAttribute("id", `answer${questionNumb}`);
+    // answerInput.type = "text";
+    answerInput.type = `${answerTypeSelect.value}`;
+    // submitBtn.classname = "button";
+    // submitBtn.value = "submit";
+    innerFormContainer.appendChild(answerInput);
+
+    const addBtn = document.createElement("input");
+    addBtn.setAttribute("id", `btn${questionNumb}`);
+    addBtn.type = "button";
+    addBtn.classname = "button";
+    addBtn.value = "add nested form";
+    innerFormContainer.appendChild(addBtn);
 
     // const questionInput2 = document.createElement("input");
     // questionInput2.setAttribute("placeholder", "check condition");
     // innerFormContainer.appendChild(questionInput2);
 
-    console.log(questionInput.value);
-    localStorage.setItem(`question${questionNumb}`, questionInput.value);
-    createForm(event);
+    addBtn.addEventListener("click", createForm);
   };
 
-  submitBtn.addEventListener("click", createInnerForm);
+  submitBtn.addEventListener("click", submitQuestion);
 };
 
 addBtn.addEventListener("click", createForm);
