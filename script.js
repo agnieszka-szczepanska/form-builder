@@ -53,7 +53,7 @@ const createForm = (event) => {
     innerFormContainer.appendChild(questionInput2);
 
     console.log(questionInput.value);
-    localStorage.setItem("question", questionInput.value);
+    localStorage.setItem(`question${questionNumb}`, questionInput.value);
     createForm(event);
   };
 
