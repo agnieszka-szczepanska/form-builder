@@ -25,6 +25,18 @@ const createForm = (event) => {
       ? answerType.setAttribute("disabled", "true")
       : answerType.setAttribute("value", options[i]);
   }
+  const submitBtn = document.createElement("input");
+  submitBtn.type = "button";
+  submitBtn.classname = "button";
+  submitBtn.value = "submit";
+  form.appendChild(submitBtn);
+
+  const createInnerForm = (event) => {
+    event.preventDefault();
+    console.log("ther is inner form");
+  };
+
+  submitBtn.addEventListener("click", createInnerForm);
 };
 
 addBtn.addEventListener("click", createForm);
