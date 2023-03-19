@@ -3,14 +3,21 @@ const form = document.querySelector(".form");
 let questionNumb = 0;
 
 const createForm = (event) => {
-  // event.preventDefault();
-  // event.stopPropagation();
+  event.preventDefault();
+  event.stopPropagation();
   questionNumb += 1;
   console.log(questionNumb);
+  console.log("event", event.srcElement.id);
 
   const innerFormContainer = document.createElement("div");
   innerFormContainer.setAttribute("id", `form${questionNumb}`);
-  form.appendChild(innerFormContainer);
+  numbSelector = `#form${event.srcElement.id.slice(3)}`;
+  let ancestorDiv = document.querySelector(numbSelector);
+  console.log("ancestor", ancestorDiv);
+
+  ancestorDiv
+    ? ancestorDiv.after(innerFormContainer)
+    : form.before(innerFormContainer);
 
   const questionInput = document.createElement("input");
   questionInput.setAttribute("id", `question${questionNumb}`);
@@ -45,12 +52,11 @@ const createForm = (event) => {
   innerFormContainer.appendChild(submitBtn);
 
   const createInnerForm = (event) => {
-    // event.preventDefault();
     // event.stopPropagation();
 
-    const questionInput2 = document.createElement("input");
-    questionInput2.setAttribute("placeholder", "check condition");
-    innerFormContainer.appendChild(questionInput2);
+    // const questionInput2 = document.createElement("input");
+    // questionInput2.setAttribute("placeholder", "check condition");
+    // innerFormContainer.appendChild(questionInput2);
 
     console.log(questionInput.value);
     localStorage.setItem(`question${questionNumb}`, questionInput.value);
