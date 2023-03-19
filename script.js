@@ -6,18 +6,19 @@ const createForm = (event) => {
   event.preventDefault();
   event.stopPropagation();
   questionNumb += 1;
-  console.log(questionNumb);
+  console.log("questionNumb", questionNumb);
   console.log("event", event.srcElement.id);
 
   const innerFormContainer = document.createElement("div");
   innerFormContainer.setAttribute("id", `form${questionNumb}`);
   numbSelector = `#form${event.srcElement.id.slice(3)}`;
+  console.log("numbSelector", numbSelector);
   let ancestorDiv = document.querySelector(numbSelector);
   console.log("ancestor", ancestorDiv);
 
   ancestorDiv
-    ? ancestorDiv.after(innerFormContainer)
-    : form.before(innerFormContainer);
+    ? ancestorDiv.append(innerFormContainer)
+    : form.append(innerFormContainer);
 
   const questionInput = document.createElement("input");
   questionInput.setAttribute("id", `question${questionNumb}`);
@@ -73,6 +74,7 @@ const createForm = (event) => {
     answerInput.setAttribute("id", `answer${questionNumb}`);
     // answerInput.type = "text";
     answerInput.type = `${answerTypeSelect.value}`;
+    answerInput.value = `answer${questionNumb}`;
     // submitBtn.classname = "button";
     // submitBtn.value = "submit";
     innerFormContainer.appendChild(answerInput);
