@@ -1,18 +1,30 @@
 const addBtn = document.querySelector(".add-btn");
 const form = document.querySelector(".form");
+let questionNumb = 0;
 
 const createForm = (event) => {
-  event.preventDefault();
+  // event.preventDefault();
+  // event.stopPropagation();
+  questionNumb += 1;
+  console.log(questionNumb);
+
+  const innerFormContainer = document.createElement("div");
+  innerFormContainer.setAttribute("id", `form${questionNumb}`);
+  form.appendChild(innerFormContainer);
+
   const questionInput = document.createElement("input");
+  questionInput.setAttribute("id", `question${questionNumb}`);
   questionInput.setAttribute("placeholder", "enter your question");
-  form.appendChild(questionInput);
+  innerFormContainer.appendChild(questionInput);
 
   const selectLabel = document.createElement("label");
-  selectLabel.innerHTML = "<label for='selectId'>Choose answer type:<label/>";
-  form.appendChild(selectLabel);
+  selectLabel.setAttribute("for", `select${questionNumb}`);
+  selectLabel.innerText = "Choose answer type:";
+
+  innerFormContainer.appendChild(selectLabel);
   const answerTypeSelect = document.createElement("select");
-  form.appendChild(answerTypeSelect);
-  answerTypeSelect.setAttribute("id", "selectId");
+  innerFormContainer.appendChild(answerTypeSelect);
+  answerTypeSelect.setAttribute("id", `select${questionNumb}`);
 
   const options = ["", "text", "number", "radio"];
 
@@ -26,14 +38,23 @@ const createForm = (event) => {
       : answerType.setAttribute("value", options[i]);
   }
   const submitBtn = document.createElement("input");
+  submitBtn.setAttribute("id", `btn${questionNumb}`);
   submitBtn.type = "button";
   submitBtn.classname = "button";
   submitBtn.value = "submit";
-  form.appendChild(submitBtn);
+  innerFormContainer.appendChild(submitBtn);
 
   const createInnerForm = (event) => {
-    event.preventDefault();
-    console.log("ther is inner form");
+    // event.preventDefault();
+    // event.stopPropagation();
+
+    const questionInput2 = document.createElement("input");
+    questionInput2.setAttribute("placeholder", "check condition");
+    innerFormContainer.appendChild(questionInput2);
+
+    console.log(questionInput.value);
+    localStorage.setItem("question", questionInput.value);
+    createForm(event);
   };
 
   submitBtn.addEventListener("click", createInnerForm);
