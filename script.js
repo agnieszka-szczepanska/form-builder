@@ -6,19 +6,21 @@ const createForm = (event) => {
   event.preventDefault();
   event.stopPropagation();
   questionNumb += 1;
-  console.log("questionNumb", questionNumb);
-  console.log("event", event.srcElement.id);
+  // console.log("questionNumb", questionNumb);
+  // console.log("event", event.srcElement.id);
 
   const innerFormContainer = document.createElement("div");
   innerFormContainer.setAttribute("id", `form${questionNumb}`);
   numbSelector = `#form${event.srcElement.id.slice(3)}`;
-  console.log("numbSelector", numbSelector);
+  // console.log("numbSelector", numbSelector);
   let ancestorDiv = document.querySelector(numbSelector);
   console.log("ancestor", ancestorDiv);
 
   ancestorDiv
     ? ancestorDiv.append(innerFormContainer)
     : form.append(innerFormContainer);
+
+  ancestorDiv && condition(innerFormContainer, questionNumb);
 
   const questionInput = document.createElement("input");
   questionInput.setAttribute("id", `question${questionNumb}`);
@@ -55,7 +57,7 @@ const createForm = (event) => {
   const submitQuestion = (event) => {
     event.preventDefault();
 
-    console.log(questionInput.value);
+    // console.log(questionInput.value);
     localStorage.setItem(`question${questionNumb}`, questionInput.value);
     localStorage.setItem(`answerType${questionNumb}`, answerTypeSelect.value);
 
@@ -111,6 +113,39 @@ const createForm = (event) => {
   };
 
   submitBtn.addEventListener("click", submitQuestion);
+};
+
+const condition = (innerFormContainer, questionNumb) => {
+  const answerTypeInCondition = localStorage.getItem(
+    `answerType${numbSelector.slice(5)}`
+  );
+  console.log("numbSelector", numbSelector.slice(5));
+  console.log("answerTypeInCondition", answerTypeInCondition);
+  const selectCondition = document.createElement("label");
+  selectCondition.setAttribute("for", `selectCondition${questionNumb}`);
+  selectCondition.innerText = "Condition:";
+  innerFormContainer.appendChild(selectCondition);
+
+  const conditionSelect = document.createElement("select");
+  innerFormContainer.appendChild(conditionSelect);
+  conditionSelect.setAttribute("id", `selectCondition${questionNumb}`);
+
+  let conditionOptions = "";
+  if (answerTypeInCondition === "text" || answerTypeInCondition === "radio") {
+    conditionOptions = ["Equals"];
+  } else {
+    conditionOptions = ["Equals", "Grater than", "Less than"];
+  }
+
+  for (let i = 0; i < conditionOptions.length; i++) {
+    const conditionAnswer = document.createElement("option");
+    conditionAnswer.textContent = conditionOptions[i];
+
+    conditionSelect.appendChild(conditionAnswer);
+    // i === 0
+    //   ? answerType.setAttribute("disabled", "true")
+    //   : answerType.setAttribute("value", options[i]);
+  }
 };
 
 addBtn.addEventListener("click", createForm);
