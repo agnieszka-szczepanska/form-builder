@@ -28,8 +28,8 @@ const createForm = (event) => {
   const selectLabel = document.createElement("label");
   selectLabel.setAttribute("for", `select${questionNumb}`);
   selectLabel.innerText = "Choose answer type:";
-
   innerFormContainer.appendChild(selectLabel);
+
   const answerTypeSelect = document.createElement("select");
   innerFormContainer.appendChild(answerTypeSelect);
   answerTypeSelect.setAttribute("id", `select${questionNumb}`);
@@ -70,14 +70,31 @@ const createForm = (event) => {
     answerLabel.innerText = `${questionInput.value}`;
     innerFormContainer.appendChild(answerLabel);
 
-    const answerInput = document.createElement("input");
-    answerInput.setAttribute("id", `answer${questionNumb}`);
-    // answerInput.type = "text";
-    answerInput.type = `${answerTypeSelect.value}`;
-    answerInput.value = `answer${questionNumb}`;
-    // submitBtn.classname = "button";
-    // submitBtn.value = "submit";
-    innerFormContainer.appendChild(answerInput);
+    if (answerTypeSelect.value === "radio") {
+      const radioAnswers = ["yes", "no"];
+
+      for (let i = 0; i < radioAnswers.length; i++) {
+        const radioInput = document.createElement("input");
+        radioInput.type = "radio";
+        radioInput.value = `${radioAnswers[i]}`;
+        radioInput.setAttribute("id", `${radioAnswers[i]}${questionNumb}`);
+        radioInput.setAttribute("name", "yesNo");
+        innerFormContainer.appendChild(radioInput);
+
+        const selectLabel = document.createElement("label");
+        selectLabel.setAttribute("for", `${radioAnswers[i]}${questionNumb}`);
+        selectLabel.innerText = `${radioAnswers[i]}`;
+        innerFormContainer.appendChild(selectLabel);
+      }
+    } else {
+      const answerInput = document.createElement("input");
+      answerInput.setAttribute("id", `answer${questionNumb}`);
+      answerInput.type = `${answerTypeSelect.value}`;
+      // answerInput.value = `answer${questionNumb}`;
+      // submitBtn.classname = "button";
+      // submitBtn.value = "submit";
+      innerFormContainer.appendChild(answerInput);
+    }
 
     const addBtn = document.createElement("input");
     addBtn.setAttribute("id", `btn${questionNumb}`);
