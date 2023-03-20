@@ -22,6 +22,11 @@ const createForm = (event) => {
 
   ancestorDiv && condition(innerFormContainer, questionNumb);
 
+  const questionInputLabel = document.createElement("label");
+  questionInputLabel.setAttribute("for", `question${questionNumb}`);
+  questionInputLabel.innerText = "Question:";
+  innerFormContainer.appendChild(questionInputLabel);
+
   const questionInput = document.createElement("input");
   questionInput.setAttribute("id", `question${questionNumb}`);
   questionInput.setAttribute("placeholder", "enter your question");
@@ -66,6 +71,7 @@ const createForm = (event) => {
     questionInput.style.display = "none";
     selectLabel.style.display = "none";
     answerTypeSelect.style.display = "none";
+    questionInputLabel.style.display = "none";
 
     const answerLabel = document.createElement("label");
     answerLabel.setAttribute("for", `select${questionNumb}`);
@@ -121,10 +127,13 @@ const condition = (innerFormContainer, questionNumb) => {
   );
   console.log("numbSelector", numbSelector.slice(5));
   console.log("answerTypeInCondition", answerTypeInCondition);
-  const selectCondition = document.createElement("label");
-  selectCondition.setAttribute("for", `selectCondition${questionNumb}`);
-  selectCondition.innerText = "Condition:";
-  innerFormContainer.appendChild(selectCondition);
+  const selectConditionLabel = document.createElement("label");
+  selectConditionLabel.setAttribute(
+    "for",
+    `selectConditionLabel${questionNumb}`
+  );
+  selectConditionLabel.innerText = "Condition:";
+  innerFormContainer.appendChild(selectConditionLabel);
 
   const conditionSelect = document.createElement("select");
   innerFormContainer.appendChild(conditionSelect);
@@ -142,9 +151,34 @@ const condition = (innerFormContainer, questionNumb) => {
     conditionAnswer.textContent = conditionOptions[i];
 
     conditionSelect.appendChild(conditionAnswer);
-    // i === 0
-    //   ? answerType.setAttribute("disabled", "true")
-    //   : answerType.setAttribute("value", options[i]);
+  }
+
+  if (answerTypeInCondition === "radio") {
+    const conditionRadioAnswers = ["yes", "no"];
+
+    for (let i = 0; i < conditionRadioAnswers.length; i++) {
+      const conditionRadioInput = document.createElement("input");
+      conditionRadioInput.type = "radio";
+      conditionRadioInput.value = `${conditionRadioAnswers[i]}`;
+      conditionRadioInput.setAttribute(
+        "id",
+        `${conditionRadioAnswers[i]}${questionNumb}`
+      );
+      conditionRadioInput.setAttribute("name", "yesNo");
+      innerFormContainer.appendChild(conditionRadioInput);
+
+      const conditionSelectLabel = document.createElement("label");
+      conditionSelectLabel.setAttribute(
+        "for",
+        `${conditionRadioAnswers[i]}${questionNumb}`
+      );
+      conditionSelectLabel.innerText = `${conditionRadioAnswers[i]}`;
+      innerFormContainer.appendChild(conditionSelectLabel);
+    }
+  } else {
+    const conditionInput = document.createElement("input");
+    conditionInput.type = answerTypeInCondition;
+    innerFormContainer.appendChild(conditionInput);
   }
 };
 
