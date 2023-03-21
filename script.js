@@ -1,6 +1,6 @@
 const addBtn = document.querySelector(".add-btn");
 const form = document.querySelector(".form");
-const createFormBtn = document.querySelector(".createFormBtn");
+const generateFormBtn = document.querySelector("#generateFormBtn");
 let questionNumb = 0;
 
 const createForm = (event) => {
@@ -49,68 +49,23 @@ const createForm = (event) => {
       : answerType.setAttribute("value", options[i]);
   }
 
-  const submitBtn = document.createElement("input");
-  submitBtn.setAttribute("id", `btn${questionNumb}`);
-  submitBtn.type = "button";
-  submitBtn.classname = "button";
-  submitBtn.value = "submit";
-  innerFormContainer.appendChild(submitBtn);
+  const addBtn = document.createElement("input");
+  addBtn.setAttribute("id", `btn${questionNumb}`);
+  addBtn.type = "button";
+  addBtn.classname = "button";
+  addBtn.value = "add nested form";
+  innerFormContainer.appendChild(addBtn);
 
-  const submitQuestion = (event) => {
+  addBtn.addEventListener("click", createForm);
+
+  questionInput.addEventListener("change", (event) => {
     event.preventDefault();
-
     localStorage.setItem(`question${questionNumb}`, questionInput.value);
+  });
+  answerTypeSelect.addEventListener("change", (event) => {
+    event.preventDefault();
     localStorage.setItem(`answerType${questionNumb}`, answerTypeSelect.value);
-
-    //stworzyć tablicę i usunąć przypisując wspólny atrybut/classę?
-    event.currentTarget.style.display = "none";
-    questionInputLabel.style.display = "none";
-    questionInput.style.display = "none";
-    selectLabel.style.display = "none";
-    answerTypeSelect.style.display = "none";
-
-    const answerLabel = document.createElement("label");
-    answerLabel.setAttribute("for", `select${questionNumb}`);
-    answerLabel.innerText = `${questionInput.value}`;
-    innerFormContainer.appendChild(answerLabel);
-
-    if (answerTypeSelect.value === "radio") {
-      const radioAnswers = ["yes", "no"];
-
-      for (let i = 0; i < radioAnswers.length; i++) {
-        const radioInput = document.createElement("input");
-        radioInput.type = "radio";
-        radioInput.value = `${radioAnswers[i]}`;
-        radioInput.setAttribute("id", `${radioAnswers[i]}${questionNumb}`);
-        radioInput.setAttribute("name", "yesNo");
-        innerFormContainer.appendChild(radioInput);
-
-        const selectLabel = document.createElement("label");
-        selectLabel.setAttribute("for", `${radioAnswers[i]}${questionNumb}`);
-        selectLabel.innerText = `${radioAnswers[i]}`;
-        innerFormContainer.appendChild(selectLabel);
-      }
-    } else {
-      const answerInput = document.createElement("input");
-      answerInput.setAttribute("id", `answer${questionNumb}`);
-      answerInput.type = `${answerTypeSelect.value}`;
-      // answerInput.value = `answer${questionNumb}`;
-      // submitBtn.classname = "button";
-      // submitBtn.value = "submit";
-      innerFormContainer.appendChild(answerInput);
-    }
-
-    const addBtn = document.createElement("input");
-    addBtn.setAttribute("id", `btn${questionNumb}`);
-    addBtn.type = "button";
-    addBtn.classname = "button";
-    addBtn.value = "add nested form";
-    innerFormContainer.appendChild(addBtn);
-
-    addBtn.addEventListener("click", createForm);
-  };
-
-  submitBtn.addEventListener("click", submitQuestion);
+  });
 };
 
 const condition = (innerFormContainer, questionNumb) => {
@@ -174,4 +129,51 @@ const condition = (innerFormContainer, questionNumb) => {
   }
 };
 
+const generateForm = (event) => {
+  event.preventDefault();
+
+  event.currentTarget.style.display = "none";
+  addBtn.style.display = "none";
+
+  for (let i = 1; i <= questionNumb; i++) {
+    let formToChange = document.querySelector(`#form${i}`);
+    formToChange.innerText = "";
+
+    const answerLabel = document.createElement("label");
+    answerLabel.setAttribute("for", `select${i}`);
+    questionValue = localStorage.getItem(`question${i}`);
+    answerLabel.innerText = questionValue;
+    formToChange.appendChild(answerLabel);
+  }
+
+  // const answerLabel = document.createElement("label");
+  // answerLabel.setAttribute("for", `select${questionNumb}`);
+  // answerLabel.innerText = `${questionInput.value}`;
+  // innerFormContainer.appendChild(answerLabel);
+  // if (answerTypeSelect.value === "radio") {
+  //   const radioAnswers = ["yes", "no"];
+  //   for (let i = 0; i < radioAnswers.length; i++) {
+  //     const radioInput = document.createElement("input");
+  //     radioInput.type = "radio";
+  //     radioInput.value = `${radioAnswers[i]}`;
+  //     radioInput.setAttribute("id", `${radioAnswers[i]}${questionNumb}`);
+  //     radioInput.setAttribute("name", "yesNo");
+  //     innerFormContainer.appendChild(radioInput);
+  //     const selectLabel = document.createElement("label");
+  //     selectLabel.setAttribute("for", `${radioAnswers[i]}${questionNumb}`);
+  //     selectLabel.innerText = `${radioAnswers[i]}`;
+  //     innerFormContainer.appendChild(selectLabel);
+  //   }
+  // } else {
+  //   const answerInput = document.createElement("input");
+  //   answerInput.setAttribute("id", `answer${questionNumb}`);
+  //   answerInput.type = `${answerTypeSelect.value}`;
+  //   // answerInput.value = `answer${questionNumb}`;
+  //   // submitBtn.classname = "button";
+  //   // submitBtn.value = "submit";
+  //   innerFormContainer.appendChild(answerInput);
+  // }
+};
+
+generateFormBtn.addEventListener("click", generateForm);
 addBtn.addEventListener("click", createForm);
