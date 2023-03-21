@@ -1,18 +1,16 @@
 const addBtn = document.querySelector(".add-btn");
 const form = document.querySelector(".form");
+const createFormBtn = document.querySelector(".createFormBtn");
 let questionNumb = 0;
 
 const createForm = (event) => {
   event.preventDefault();
   event.stopPropagation();
   questionNumb += 1;
-  // console.log("questionNumb", questionNumb);
-  // console.log("event", event.srcElement.id);
 
   const innerFormContainer = document.createElement("div");
   innerFormContainer.setAttribute("id", `form${questionNumb}`);
   numbSelector = `#form${event.srcElement.id.slice(3)}`;
-  // console.log("numbSelector", numbSelector);
   let ancestorDiv = document.querySelector(numbSelector);
   console.log("ancestor", ancestorDiv);
 
@@ -42,16 +40,15 @@ const createForm = (event) => {
   answerTypeSelect.setAttribute("id", `select${questionNumb}`);
 
   const options = ["", "text", "number", "radio"];
-
   for (let i = 0; i < options.length; i++) {
     const answerType = document.createElement("option");
     answerType.textContent = options[i];
-
     answerTypeSelect.appendChild(answerType);
     i === 0
       ? answerType.setAttribute("disabled", "true")
       : answerType.setAttribute("value", options[i]);
   }
+
   const submitBtn = document.createElement("input");
   submitBtn.setAttribute("id", `btn${questionNumb}`);
   submitBtn.type = "button";
@@ -62,16 +59,15 @@ const createForm = (event) => {
   const submitQuestion = (event) => {
     event.preventDefault();
 
-    // console.log(questionInput.value);
     localStorage.setItem(`question${questionNumb}`, questionInput.value);
     localStorage.setItem(`answerType${questionNumb}`, answerTypeSelect.value);
 
     //stworzyć tablicę i usunąć przypisując wspólny atrybut/classę?
     event.currentTarget.style.display = "none";
+    questionInputLabel.style.display = "none";
     questionInput.style.display = "none";
     selectLabel.style.display = "none";
     answerTypeSelect.style.display = "none";
-    questionInputLabel.style.display = "none";
 
     const answerLabel = document.createElement("label");
     answerLabel.setAttribute("for", `select${questionNumb}`);
@@ -110,10 +106,6 @@ const createForm = (event) => {
     addBtn.classname = "button";
     addBtn.value = "add nested form";
     innerFormContainer.appendChild(addBtn);
-
-    // const questionInput2 = document.createElement("input");
-    // questionInput2.setAttribute("placeholder", "check condition");
-    // innerFormContainer.appendChild(questionInput2);
 
     addBtn.addEventListener("click", createForm);
   };
