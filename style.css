@@ -1,3 +1,34 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 .hidden {
   display: none;
+}
+
+body {
+  background-image: url("https://img.freepik.com/darmowe-wektory/recznie-malowane-akwarelowe-tlo-natura_23-2148941599.jpg?w=1380&t=st=1679523286~exp=1679523886~hmac=4f833634de231ad452c1d3cff2c54e42201ae09dcd4dbd678314434132021996");
+}
+.wrapper,
+.formContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.wrapper {
+  width: 50%;
+  max-width: 700px;
+  margin: auto;
+  margin-top: 30px;
+  background-color: white;
+  padding: 30px;
+  text-align: center;
+  min-height: 70vh;
+  border-radius: 20px;
+}
+input,
+select {
+  width: 33%;
 }

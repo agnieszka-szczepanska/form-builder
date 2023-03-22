@@ -32,6 +32,9 @@ const createForm = (event) => {
   questionInput.classList.add("visible");
   innerFormContainer.appendChild(questionInput);
 
+  const breakLine = document.createElement("br");
+  innerFormContainer.appendChild(breakLine);
+
   const selectLabel = document.createElement("label");
   selectLabel.setAttribute("for", `select${questionNumb}`);
   selectLabel.innerText = "Choose answer type:";
@@ -52,6 +55,9 @@ const createForm = (event) => {
       ? answerType.setAttribute("disabled", "true")
       : answerType.setAttribute("value", options[i]);
   }
+
+  const secondBreakLine = document.createElement("br");
+  innerFormContainer.appendChild(secondBreakLine);
 
   const addBtn = document.createElement("input");
   addBtn.setAttribute("id", `btn${questionNumb}`);
@@ -158,6 +164,8 @@ const condition = (innerFormContainer, questionNumb) => {
       );
     });
   }
+  const thirdBreakLine = document.createElement("br");
+  innerFormContainer.appendChild(thirdBreakLine);
 
   conditionSelect.addEventListener("change", (event) => {
     event.preventDefault();
@@ -214,6 +222,12 @@ const generateForm = (event) => {
       newFormContainer.appendChild(answerInput);
     }
   }
+  const submitBtn = document.createElement("input");
+  submitBtn.setAttribute("id", "submitBtn");
+  submitBtn.type = "button";
+  submitBtn.classname = "button";
+  submitBtn.value = "Submit form";
+  form.appendChild(submitBtn);
 };
 
 generateFormBtn.addEventListener("click", generateForm);
