@@ -144,12 +144,34 @@ const generateForm = (event) => {
     questionValue = localStorage.getItem(`question${i}`);
     answerLabel.innerText = questionValue;
     formToChange.appendChild(answerLabel);
+
+    const answerTypeValue = localStorage.getItem(`answerType${i}`);
+    if (answerTypeValue === "radio") {
+      const radioAnswers = ["yes", "no"];
+      for (let a = 0; a < radioAnswers.length; a++) {
+        const radioInput = document.createElement("input");
+        radioInput.type = "radio";
+        radioInput.value = `${radioAnswers[a]}`;
+        radioInput.setAttribute("id", `${radioAnswers[a]}${i}`);
+        radioInput.setAttribute("name", "yesNo");
+        formToChange.appendChild(radioInput);
+        const selectLabel = document.createElement("label");
+        selectLabel.setAttribute("for", `${radioAnswers[a]}${i}`);
+        selectLabel.innerText = `${radioAnswers[a]}`;
+        formToChange.appendChild(selectLabel);
+      }
+      // } else {
+      //   const answerInput = document.createElement("input");
+      //   answerInput.setAttribute("id", `answer${questionNumb}`);
+      //   answerInput.type = `${answerTypeSelect.value}`;
+      //   // answerInput.value = `answer${questionNumb}`;
+      //   // submitBtn.classname = "button";
+      //   // submitBtn.value = "submit";
+      //   innerFormContainer.appendChild(answerInput);
+      // }
+    }
   }
 
-  // const answerLabel = document.createElement("label");
-  // answerLabel.setAttribute("for", `select${questionNumb}`);
-  // answerLabel.innerText = `${questionInput.value}`;
-  // innerFormContainer.appendChild(answerLabel);
   // if (answerTypeSelect.value === "radio") {
   //   const radioAnswers = ["yes", "no"];
   //   for (let i = 0; i < radioAnswers.length; i++) {
