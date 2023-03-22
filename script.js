@@ -23,6 +23,7 @@ const createForm = (event) => {
   const questionInputLabel = document.createElement("label");
   questionInputLabel.setAttribute("for", `question${questionNumb}`);
   questionInputLabel.innerText = "Question:";
+  questionInputLabel.classList.add("visible");
   innerFormContainer.appendChild(questionInputLabel);
 
   const questionInput = document.createElement("input");
@@ -33,6 +34,7 @@ const createForm = (event) => {
   const selectLabel = document.createElement("label");
   selectLabel.setAttribute("for", `select${questionNumb}`);
   selectLabel.innerText = "Choose answer type:";
+  selectLabel.classList.add("visible");
   innerFormContainer.appendChild(selectLabel);
 
   const answerTypeSelect = document.createElement("select");
@@ -165,7 +167,11 @@ const generateForm = (event) => {
   for (let i = questionNumb; i >= 1; i--) {
     let formToChange = document.querySelector(`#form${i}`);
     console.log("formToChange", formToChange);
-    formToChange.innerText = "";
+    // formToChange.innerText = "";
+
+    const visibleArr = document.querySelectorAll(".visible");
+    visibleArr.forEach((e) => e.classList.add("hidden"));
+    console.log(visibleArr);
 
     const questionLabel = document.createElement("label");
     questionLabel.setAttribute("for", `select${i}`);
