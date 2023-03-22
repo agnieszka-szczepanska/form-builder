@@ -29,6 +29,7 @@ const createForm = (event) => {
   const questionInput = document.createElement("input");
   questionInput.setAttribute("id", `question${questionNumb}`);
   questionInput.setAttribute("placeholder", "enter your question");
+  questionInput.classList.add("visible");
   innerFormContainer.appendChild(questionInput);
 
   const selectLabel = document.createElement("label");
@@ -38,6 +39,7 @@ const createForm = (event) => {
   innerFormContainer.appendChild(selectLabel);
 
   const answerTypeSelect = document.createElement("select");
+  answerTypeSelect.classList.add("visible");
   innerFormContainer.appendChild(answerTypeSelect);
   answerTypeSelect.setAttribute("id", `select${questionNumb}`);
 
@@ -56,6 +58,8 @@ const createForm = (event) => {
   addBtn.type = "button";
   addBtn.classname = "button";
   addBtn.value = "add nested form";
+  addBtn.classList.add("visible");
+  addBtn.value = "add nested form";
   innerFormContainer.appendChild(addBtn);
 
   addBtn.addEventListener("click", createForm);
@@ -68,24 +72,27 @@ const createForm = (event) => {
     event.preventDefault();
     localStorage.setItem(`answerType${questionNumb}`, answerTypeSelect.value);
   });
+
+  generateFormBtn.classList.remove("hidden");
 };
 
 const condition = (innerFormContainer, questionNumb) => {
   const answerTypeInCondition = localStorage.getItem(
     `answerType${numbSelector.slice(5)}`
   );
-  console.log("numbSelector", numbSelector.slice(5));
-  console.log("answerTypeInCondition", answerTypeInCondition);
+
   const selectConditionLabel = document.createElement("label");
   selectConditionLabel.setAttribute(
     "for",
     `selectConditionLabel${questionNumb}`
   );
   selectConditionLabel.innerText = "Condition:";
+  selectConditionLabel.classList.add("visible");
   innerFormContainer.appendChild(selectConditionLabel);
 
   const conditionSelect = document.createElement("select");
   innerFormContainer.appendChild(conditionSelect);
+  conditionSelect.classList.add("visible");
   conditionSelect.setAttribute("id", `selectCondition${questionNumb}`);
 
   let conditionOptions = "";
@@ -116,6 +123,7 @@ const condition = (innerFormContainer, questionNumb) => {
         `${conditionRadioAnswers[i]}${questionNumb}`
       );
       conditionRadioInput.setAttribute("name", "yesNo");
+      conditionRadioInput.classList.add("visible");
       innerFormContainer.appendChild(conditionRadioInput);
 
       const conditionSelectLabel = document.createElement("label");
@@ -124,6 +132,7 @@ const condition = (innerFormContainer, questionNumb) => {
         `${conditionRadioAnswers[i]}${questionNumb}`
       );
       conditionSelectLabel.innerText = `${conditionRadioAnswers[i]}`;
+      conditionSelectLabel.classList.add("visible");
       innerFormContainer.appendChild(conditionSelectLabel);
 
       conditionRadioInput.addEventListener("change", (event) => {
@@ -137,6 +146,7 @@ const condition = (innerFormContainer, questionNumb) => {
   } else {
     const conditionInput = document.createElement("input");
     conditionInput.type = answerTypeInCondition;
+    conditionInput.classList.add("visible");
     innerFormContainer.appendChild(conditionInput);
     console.log(conditionInput.value, "conditionInput");
 
@@ -164,10 +174,12 @@ const generateForm = (event) => {
   event.currentTarget.style.display = "none";
   addBtn.style.display = "none";
 
-  for (let i = questionNumb; i >= 1; i--) {
+  // (let i = questionNumb; i >= 1; i--)
+  for (let i = 1; i <= questionNumb; i++) {
     let formToChange = document.querySelector(`#form${i}`);
-    console.log("formToChange", formToChange);
-    // formToChange.innerText = "";
+    const newFormContainer = document.createElement("div");
+    newFormContainer.setAttribute("id", `newForm${i}`);
+    formToChange.before(newFormContainer);
 
     const visibleArr = document.querySelectorAll(".visible");
     visibleArr.forEach((e) => e.classList.add("hidden"));
@@ -177,7 +189,7 @@ const generateForm = (event) => {
     questionLabel.setAttribute("for", `select${i}`);
     const questionLabelValue = localStorage.getItem(`question${i}`);
     questionLabel.innerText = questionLabelValue;
-    formToChange.appendChild(questionLabel);
+    newFormContainer.appendChild(questionLabel);
 
     const answerTypeValue = localStorage.getItem(`answerType${i}`);
 
@@ -189,17 +201,17 @@ const generateForm = (event) => {
         radioInput.value = `${radioAnswers[a]}`;
         radioInput.setAttribute("id", `${radioAnswers[a]}${i}`);
         radioInput.setAttribute("name", "yesNo");
-        formToChange.appendChild(radioInput);
+        newFormContainer.appendChild(radioInput);
         const selectLabel = document.createElement("label");
         selectLabel.setAttribute("for", `${radioAnswers[a]}${i}`);
         selectLabel.innerText = `${radioAnswers[a]}`;
-        formToChange.appendChild(selectLabel);
+        newFormContainer.appendChild(selectLabel);
       }
     } else {
       const answerInput = document.createElement("input");
       answerInput.setAttribute("id", `answer${questionNumb}`);
       answerInput.type = answerTypeValue;
-      formToChange.appendChild(answerInput);
+      newFormContainer.appendChild(answerInput);
     }
   }
 };
