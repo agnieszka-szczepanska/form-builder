@@ -88,16 +88,18 @@ const condition = (innerFormContainer, questionNumb) => {
 
   let conditionOptions = "";
   if (answerTypeInCondition === "text" || answerTypeInCondition === "radio") {
-    conditionOptions = ["Equals"];
+    conditionOptions = ["", "Equals"];
   } else {
-    conditionOptions = ["Equals", "Grater than", "Less than"];
+    conditionOptions = ["", "Equals", "Grater than", "Less than"];
   }
 
   for (let i = 0; i < conditionOptions.length; i++) {
     const conditionAnswer = document.createElement("option");
-    conditionAnswer.textContent = conditionOptions[i];
-
     conditionSelect.appendChild(conditionAnswer);
+
+    i === 0
+      ? conditionAnswer.setAttribute("disabled", "true")
+      : (conditionAnswer.textContent = conditionOptions[i]);
   }
 
   if (answerTypeInCondition === "radio") {
@@ -121,12 +123,37 @@ const condition = (innerFormContainer, questionNumb) => {
       );
       conditionSelectLabel.innerText = `${conditionRadioAnswers[i]}`;
       innerFormContainer.appendChild(conditionSelectLabel);
+
+      conditionRadioInput.addEventListener("change", (event) => {
+        event.preventDefault();
+        localStorage.setItem(
+          `conditionRadioInputValue${questionNumb}`,
+          event.target.value
+        );
+      });
     }
   } else {
     const conditionInput = document.createElement("input");
     conditionInput.type = answerTypeInCondition;
     innerFormContainer.appendChild(conditionInput);
+    console.log(conditionInput.value, "conditionInput");
+
+    conditionInput.addEventListener("change", (event) => {
+      event.preventDefault();
+      localStorage.setItem(
+        `conditionInputValue${questionNumb}`,
+        event.target.value
+      );
+    });
   }
+
+  conditionSelect.addEventListener("change", (event) => {
+    event.preventDefault();
+    localStorage.setItem(
+      `conditionSelectType${questionNumb}`,
+      conditionSelect.value
+    );
+  });
 };
 
 const generateForm = (event) => {
@@ -135,15 +162,16 @@ const generateForm = (event) => {
   event.currentTarget.style.display = "none";
   addBtn.style.display = "none";
 
-  for (let i = 1; i <= questionNumb; i++) {
+  for (let i = questionNumb; i >= 1; i--) {
     let formToChange = document.querySelector(`#form${i}`);
+    console.log("formToChange", formToChange);
     formToChange.innerText = "";
 
-    const answerLabel = document.createElement("label");
-    answerLabel.setAttribute("for", `select${i}`);
-    questionValue = localStorage.getItem(`question${i}`);
-    answerLabel.innerText = questionValue;
-    formToChange.appendChild(answerLabel);
+    const questionLabel = document.createElement("label");
+    questionLabel.setAttribute("for", `select${i}`);
+    const questionLabelValue = localStorage.getItem(`question${i}`);
+    questionLabel.innerText = questionLabelValue;
+    formToChange.appendChild(questionLabel);
 
     const answerTypeValue = localStorage.getItem(`answerType${i}`);
     if (answerTypeValue === "radio") {
