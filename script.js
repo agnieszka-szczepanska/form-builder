@@ -174,6 +174,7 @@ const generateForm = (event) => {
     formToChange.appendChild(questionLabel);
 
     const answerTypeValue = localStorage.getItem(`answerType${i}`);
+
     if (answerTypeValue === "radio") {
       const radioAnswers = ["yes", "no"];
       for (let a = 0; a < radioAnswers.length; a++) {
@@ -188,41 +189,13 @@ const generateForm = (event) => {
         selectLabel.innerText = `${radioAnswers[a]}`;
         formToChange.appendChild(selectLabel);
       }
-      // } else {
-      //   const answerInput = document.createElement("input");
-      //   answerInput.setAttribute("id", `answer${questionNumb}`);
-      //   answerInput.type = `${answerTypeSelect.value}`;
-      //   // answerInput.value = `answer${questionNumb}`;
-      //   // submitBtn.classname = "button";
-      //   // submitBtn.value = "submit";
-      //   innerFormContainer.appendChild(answerInput);
-      // }
+    } else {
+      const answerInput = document.createElement("input");
+      answerInput.setAttribute("id", `answer${questionNumb}`);
+      answerInput.type = answerTypeValue;
+      formToChange.appendChild(answerInput);
     }
   }
-
-  // if (answerTypeSelect.value === "radio") {
-  //   const radioAnswers = ["yes", "no"];
-  //   for (let i = 0; i < radioAnswers.length; i++) {
-  //     const radioInput = document.createElement("input");
-  //     radioInput.type = "radio";
-  //     radioInput.value = `${radioAnswers[i]}`;
-  //     radioInput.setAttribute("id", `${radioAnswers[i]}${questionNumb}`);
-  //     radioInput.setAttribute("name", "yesNo");
-  //     innerFormContainer.appendChild(radioInput);
-  //     const selectLabel = document.createElement("label");
-  //     selectLabel.setAttribute("for", `${radioAnswers[i]}${questionNumb}`);
-  //     selectLabel.innerText = `${radioAnswers[i]}`;
-  //     innerFormContainer.appendChild(selectLabel);
-  //   }
-  // } else {
-  //   const answerInput = document.createElement("input");
-  //   answerInput.setAttribute("id", `answer${questionNumb}`);
-  //   answerInput.type = `${answerTypeSelect.value}`;
-  //   // answerInput.value = `answer${questionNumb}`;
-  //   // submitBtn.classname = "button";
-  //   // submitBtn.value = "submit";
-  //   innerFormContainer.appendChild(answerInput);
-  // }
 };
 
 generateFormBtn.addEventListener("click", generateForm);
