@@ -9,6 +9,9 @@
 
 body {
   background-image: url("https://img.freepik.com/darmowe-wektory/recznie-malowane-akwarelowe-tlo-natura_23-2148941599.jpg?w=1380&t=st=1679523286~exp=1679523886~hmac=4f833634de231ad452c1d3cff2c54e42201ae09dcd4dbd678314434132021996");
+  background-size: cover;
+  height: 100vh;
+  font-family: "Fraunces", serif;
 }
 .wrapper,
 .formContainer {
@@ -28,7 +31,70 @@ body {
   min-height: 70vh;
   border-radius: 20px;
 }
+h1 {
+  font-family: "Montserrat", sans-serif;
+  color: hsl(158, 36%, 37%);
+}
 input,
 select {
-  width: 33%;
+  width: 150px;
+}
+.btn,
+.add-btn {
+  background-color: hsl(158, 27%, 28%);
+  color: white;
+  border-radius: 10px;
+  transition: 1s;
+  cursor: pointer;
+}
+
+.btn:hover,
+.add-btn:hover {
+  background-color: hsl(157, 26%, 14%);
+}
+
+input[type="button"].visible,
+#submitBtn {
+  background-color: hsl(158, 21%, 61%);
+  color: white;
+  border-radius: 10px;
+  transition: 1s;
+  cursor: pointer;
+  padding: 2px;
+}
+input[type="button"].visible:hover {
+  background-color: hsl(157, 26%, 14%);
+}
+input[type="text"].visible {
+  padding: 5px;
+}
+input[type="radio"] {
+  width: 15px;
+}
+label {
+  display: inline-block;
+  min-width: 150px;
+  margin-right: 5px;
+}
+.radioInput {
+  width: 50px;
+  display: block;
+  margin: auto;
+}
+.singleForm,
+.newForm {
+  max-width: 450px;
+  border: 2px solid hsl(158, 27%, 28%);
+  border-radius: 20px;
+  padding: 5px;
+  margin: auto;
+}
+.borderFormToHide {
+  border: none;
+}
+
+@media screen and (max-width: 700px) {
+  .wrapper {
+    width: 300px;
+  }
 }

@@ -10,9 +10,9 @@ const createForm = (event) => {
 
   const innerFormContainer = document.createElement("div");
   innerFormContainer.setAttribute("id", `form${questionNumb}`);
+  innerFormContainer.classList.add("singleForm");
   numbSelector = `#form${event.srcElement.id.slice(3)}`;
   let ancestorDiv = document.querySelector(numbSelector);
-  console.log("ancestor", ancestorDiv);
 
   ancestorDiv
     ? ancestorDiv.append(innerFormContainer)
@@ -154,7 +154,6 @@ const condition = (innerFormContainer, questionNumb) => {
     conditionInput.type = answerTypeInCondition;
     conditionInput.classList.add("visible");
     innerFormContainer.appendChild(conditionInput);
-    console.log(conditionInput.value, "conditionInput");
 
     conditionInput.addEventListener("change", (event) => {
       event.preventDefault();
@@ -181,6 +180,8 @@ const generateForm = (event) => {
 
   for (let i = 1; i <= questionNumb; i++) {
     let formToChange = document.querySelector(`#form${i}`);
+    formToChange.classList.add("borderFormToHide");
+
     const newFormContainer = document.createElement("div");
     newFormContainer.setAttribute("id", `newForm${i}`);
     formToChange.before(newFormContainer);
@@ -205,6 +206,8 @@ const generateForm = (event) => {
           radioInput.value = `${radioAnswers[a]}`;
           radioInput.setAttribute("id", `radioAnswers${i}`);
           radioInput.setAttribute("name", "yesNo");
+          radioInput.classList.add("radioInput");
+
           newFormContainer.appendChild(radioInput);
           const selectLabel = document.createElement("label");
           selectLabel.setAttribute("for", `radioAnswers${i}`);
@@ -242,53 +245,17 @@ const generateForm = (event) => {
     if (!parentFormNumber) {
       displayFields();
     } else {
-      // console.log(parentFormNumber, "parentFormNumber");
-      // console.log("parentAnswer", parentAnswer);
-      // console.log("currentConditionSymbol", currentConditionSymbol);
-      // console.log("defaultAnswer", defaultAnswer);
-      // console.log("`answer${parentFormNumber}`", `answer${parentFormNumber}`);
-
       const answerField = document.querySelector(
         `#radioAnswers${parentFormNumber}` && `#answer${parentFormNumber}`
       );
 
       let condition =
         `${defaultAnswer}` + currentConditionSymbol + `${parentAnswer}`;
-      console.log("condition", condition);
-      // console.log(
-      //   `"${defaultAnswer}" ${currentConditionSymbol}"${parentAnswer}"`
-      // );
+
       if (condition) {
-        console.log("jest jest jest!");
-        displayFields();
-      } else {
-        console.log("nie maczuje się");
         displayFields();
       }
     }
-    // console.log(parentFormNumber);
-    // console.log(
-    //   `#radioAnswers${parentFormNumber}`,
-    //   "`#radioAnswers${parentFormNumber}`"
-    // );
-    // console.log(`#answer${parentFormNumber}`, "`#answer${parentFormNumber}`");
-
-    // answerField.addEventListener("change", (event) => {
-    //   event.preventDefault();
-    //   console.log("działa!!!");
-    //   if (
-    //     // `answer${parentFormNumber} conditionTypes.Equals currentAnswer`
-    //     parentFormNumber
-    //   ) {
-    //     console.log(
-    //       `answer${parentFormNumber} ${conditionTypes.currentConditionType} ${currentAnswer}`
-    //     );
-    //     console.log("currentConditionType", currentConditionType);
-    //     console.log("currentAnswer", currentAnswer);
-    //     console.log("questionNumb", questionNumb);
-    //     displayFields();
-    //   }
-    // });
   }
   const submitBtn = document.createElement("input");
   submitBtn.setAttribute("id", "submitBtn");
