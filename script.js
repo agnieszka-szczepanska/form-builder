@@ -263,6 +263,12 @@ const generateForm = (event) => {
   submitBtn.classname = "button";
   submitBtn.value = "Submit form";
   form.appendChild(submitBtn);
+
+  const submit = () => {
+    form.innerText = "Dziękujemy za przesłanie formularza";
+  };
+
+  submitBtn.addEventListener("click", submit);
 };
 
 generateFormBtn.addEventListener("click", generateForm);
