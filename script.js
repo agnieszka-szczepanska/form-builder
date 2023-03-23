@@ -182,7 +182,6 @@ const generateForm = (event) => {
   event.currentTarget.style.display = "none";
   addBtn.style.display = "none";
 
-  // (let i = questionNumb; i >= 1; i--)
   for (let i = 1; i <= questionNumb; i++) {
     let formToChange = document.querySelector(`#form${i}`);
     const newFormContainer = document.createElement("div");
@@ -191,36 +190,88 @@ const generateForm = (event) => {
 
     const visibleArr = document.querySelectorAll(".visible");
     visibleArr.forEach((e) => e.classList.add("hidden"));
-    console.log(visibleArr);
 
-    const questionLabel = document.createElement("label");
-    questionLabel.setAttribute("for", `select${i}`);
-    const questionLabelValue = localStorage.getItem(`question${i}`);
-    questionLabel.innerText = questionLabelValue;
-    newFormContainer.appendChild(questionLabel);
+    const displayFields = () => {
+      const questionLabel = document.createElement("label");
+      questionLabel.setAttribute("for", `select${i}`);
+      const questionLabelValue = localStorage.getItem(`question${i}`);
+      questionLabel.innerText = questionLabelValue;
+      newFormContainer.appendChild(questionLabel);
 
-    const answerTypeValue = localStorage.getItem(`answerType${i}`);
+      const answerTypeValue = localStorage.getItem(`answerType${i}`);
 
-    if (answerTypeValue === "radio") {
-      const radioAnswers = ["yes", "no"];
-      for (let a = 0; a < radioAnswers.length; a++) {
-        const radioInput = document.createElement("input");
-        radioInput.type = "radio";
-        radioInput.value = `${radioAnswers[a]}`;
-        radioInput.setAttribute("id", `${radioAnswers[a]}${i}`);
-        radioInput.setAttribute("name", "yesNo");
-        newFormContainer.appendChild(radioInput);
-        const selectLabel = document.createElement("label");
-        selectLabel.setAttribute("for", `${radioAnswers[a]}${i}`);
-        selectLabel.innerText = `${radioAnswers[a]}`;
-        newFormContainer.appendChild(selectLabel);
+      if (answerTypeValue === "radio") {
+        const radioAnswers = ["yes", "no"];
+        for (let a = 0; a < radioAnswers.length; a++) {
+          const radioInput = document.createElement("input");
+          radioInput.type = "radio";
+          radioInput.value = `${radioAnswers[a]}`;
+          radioInput.setAttribute("id", `radioAnswers${i}`);
+          radioInput.setAttribute("name", "yesNo");
+          newFormContainer.appendChild(radioInput);
+          const selectLabel = document.createElement("label");
+          selectLabel.setAttribute("for", `radioAnswers${i}`);
+          selectLabel.innerText = `${radioAnswers[a]}`;
+          newFormContainer.appendChild(selectLabel);
+
+          radioInput.addEventListener("change", (event) => {
+            event.preventDefault();
+            localStorage.setItem(`answer${i}`, event.target.value);
+          });
+        }
+      } else {
+        const answerInput = document.createElement("input");
+        answerInput.setAttribute("id", `answer${questionNumb}`);
+        answerInput.type = answerTypeValue;
+        newFormContainer.appendChild(answerInput);
+
+        answerInput.addEventListener("change", (event) => {
+          event.preventDefault();
+          localStorage.setItem(`answer${i}`, event.target.value);
+        });
       }
-    } else {
-      const answerInput = document.createElement("input");
-      answerInput.setAttribute("id", `answer${questionNumb}`);
-      answerInput.type = answerTypeValue;
-      newFormContainer.appendChild(answerInput);
+    };
+    const conditionTypes = {
+      Equals: "=",
+      "Grater than": ">",
+      "Less than": "<",
+    };
+    let parentFormNumber = formToChange.parentNode.id.slice(4);
+    let currentAnswer = localStorage.getItem(`answer${questionNumb}`);
+    let currentConditionType = localStorage.getItem(
+      `conditionSelectType${questionNumb}`
+    );
+
+    if (!parentFormNumber) {
+      displayFields();
     }
+
+    // const answerField = document.querySelector(
+    //   `#radioAnswers${parentFormNumber}` && `#answer${parentFormNumber}`
+    // );
+    // console.log(answerField);
+    // console.log(parentFormNumber);
+    // console.log(
+    //   `#radioAnswers${parentFormNumber}`,
+    //   "`#radioAnswers${parentFormNumber}`"
+    // );
+    // console.log(`#answer${parentFormNumber}`, "`#answer${parentFormNumber}`");
+    // answerField.addEventListener("change", (event) => {
+    //   event.preventDefault();
+    //   console.log("działa!!!");
+    //   if (
+    //     // `answer${parentFormNumber} conditionTypes.Equals currentAnswer`
+    //     parentFormNumber
+    //   ) {
+    //     console.log(
+    //       `answer${parentFormNumber} ${conditionTypes.currentConditionType} ${currentAnswer}`
+    //     );
+    //     console.log("currentConditionType", currentConditionType);
+    //     console.log("currentAnswer", currentAnswer);
+    //     console.log("questionNumb", questionNumb);
+    //     displayFields();
+    //   }
+    // });
   }
   const submitBtn = document.createElement("input");
   submitBtn.setAttribute("id", "submitBtn");
