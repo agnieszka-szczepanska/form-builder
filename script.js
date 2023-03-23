@@ -144,7 +144,7 @@ const condition = (innerFormContainer, questionNumb) => {
       conditionRadioInput.addEventListener("change", (event) => {
         event.preventDefault();
         localStorage.setItem(
-          `conditionRadioInputValue${questionNumb}`,
+          `conditionValue${questionNumb}`,
           event.target.value
         );
       });
@@ -158,10 +158,7 @@ const condition = (innerFormContainer, questionNumb) => {
 
     conditionInput.addEventListener("change", (event) => {
       event.preventDefault();
-      localStorage.setItem(
-        `conditionInputValue${questionNumb}`,
-        event.target.value
-      );
+      localStorage.setItem(`conditionValue${questionNumb}`, event.target.value);
     });
   }
   const thirdBreakLine = document.createElement("br");
@@ -232,30 +229,50 @@ const generateForm = (event) => {
       }
     };
     const conditionTypes = {
-      Equals: "=",
+      Equals: "===",
       "Grater than": ">",
       "Less than": "<",
     };
     let parentFormNumber = formToChange.parentNode.id.slice(4);
-    let currentAnswer = localStorage.getItem(`answer${questionNumb}`);
-    let currentConditionType = localStorage.getItem(
-      `conditionSelectType${questionNumb}`
-    );
+    let parentAnswer = localStorage.getItem(`answer${parentFormNumber}`);
+    let currentConditionType = localStorage.getItem(`conditionSelectType${i}`);
+    let currentConditionSymbol = conditionTypes.Equals;
+    let defaultAnswer = localStorage.getItem(`conditionValue${i}`);
 
     if (!parentFormNumber) {
       displayFields();
-    }
+    } else {
+      // console.log(parentFormNumber, "parentFormNumber");
+      // console.log("parentAnswer", parentAnswer);
+      // console.log("currentConditionSymbol", currentConditionSymbol);
+      // console.log("defaultAnswer", defaultAnswer);
+      // console.log("`answer${parentFormNumber}`", `answer${parentFormNumber}`);
 
-    // const answerField = document.querySelector(
-    //   `#radioAnswers${parentFormNumber}` && `#answer${parentFormNumber}`
-    // );
-    // console.log(answerField);
+      const answerField = document.querySelector(
+        `#radioAnswers${parentFormNumber}` && `#answer${parentFormNumber}`
+      );
+
+      let condition =
+        `${defaultAnswer}` + currentConditionSymbol + `${parentAnswer}`;
+      console.log("condition", condition);
+      // console.log(
+      //   `"${defaultAnswer}" ${currentConditionSymbol}"${parentAnswer}"`
+      // );
+      if (condition) {
+        console.log("jest jest jest!");
+        displayFields();
+      } else {
+        console.log("nie maczuje się");
+        displayFields();
+      }
+    }
     // console.log(parentFormNumber);
     // console.log(
     //   `#radioAnswers${parentFormNumber}`,
     //   "`#radioAnswers${parentFormNumber}`"
     // );
     // console.log(`#answer${parentFormNumber}`, "`#answer${parentFormNumber}`");
+
     // answerField.addEventListener("change", (event) => {
     //   event.preventDefault();
     //   console.log("działa!!!");
