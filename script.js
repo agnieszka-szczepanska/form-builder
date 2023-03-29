@@ -204,13 +204,13 @@ const generateForm = (event) => {
           const radioInput = document.createElement("input");
           radioInput.type = "radio";
           radioInput.value = `${radioAnswers[a]}`;
-          radioInput.setAttribute("id", `radioAnswers${i}`);
+          radioInput.setAttribute("id", `answer${i}`);
           radioInput.setAttribute("name", "yesNo");
           radioInput.classList.add("radioInput");
 
           newFormContainer.appendChild(radioInput);
           const selectLabel = document.createElement("label");
-          selectLabel.setAttribute("for", `radioAnswers${i}`);
+          selectLabel.setAttribute("for", `answer${i}`);
           selectLabel.innerText = `${radioAnswers[a]}`;
           newFormContainer.appendChild(selectLabel);
 
@@ -221,7 +221,7 @@ const generateForm = (event) => {
         }
       } else {
         const answerInput = document.createElement("input");
-        answerInput.setAttribute("id", `answer${questionNumb}`);
+        answerInput.setAttribute("id", `answer${i}`);
         answerInput.type = answerTypeValue;
         newFormContainer.appendChild(answerInput);
 
@@ -245,16 +245,28 @@ const generateForm = (event) => {
     if (!parentFormNumber) {
       displayFields();
     } else {
+      // console.log(parentFormNumber, "parentFormNumber");
+      // console.log("parentAnswer", parentAnswer);
+      // console.log("currentConditionSymbol", currentConditionSymbol);
+      // console.log("defaultAnswer", defaultAnswer);
+      // console.log("`answer${parentFormNumber}`", `answer${parentFormNumber}`);
       const answerField = document.querySelector(
         `#radioAnswers${parentFormNumber}` && `#answer${parentFormNumber}`
       );
 
-      let condition =
-        `${defaultAnswer}` + currentConditionSymbol + `${parentAnswer}`;
-
-      if (condition) {
-        displayFields();
-      }
+      const displayInnerForm = () => {
+        let condition =
+          `${defaultAnswer}` + currentConditionSymbol + `${parentAnswer}`;
+        console.log("condition", condition);
+        // console.log(
+        //   `"${defaultAnswer}" ${currentConditionSymbol}"${parentAnswer}"`
+        // );
+        if (condition) {
+          console.log("jest jest jest!");
+          displayFields();
+        }
+      };
+      answerField.addEventListener("change", displayInnerForm);
     }
   }
   const submitBtn = document.createElement("input");
