@@ -101,6 +101,9 @@ const condition = (innerFormContainer, questionNumb) => {
   conditionSelect.classList.add("visible");
   conditionSelect.setAttribute("id", `selectCondition${questionNumb}`);
 
+  const thirdBreakLine = document.createElement("br");
+  innerFormContainer.appendChild(thirdBreakLine);
+
   let conditionOptions = "";
   if (answerTypeInCondition === "text" || answerTypeInCondition === "radio") {
     conditionOptions = ["", "Equals"];
@@ -160,8 +163,8 @@ const condition = (innerFormContainer, questionNumb) => {
       localStorage.setItem(`conditionValue${questionNumb}`, event.target.value);
     });
   }
-  const thirdBreakLine = document.createElement("br");
-  innerFormContainer.appendChild(thirdBreakLine);
+  const fourthBreakLine = document.createElement("br");
+  innerFormContainer.appendChild(fourthBreakLine);
 
   conditionSelect.addEventListener("change", (event) => {
     event.preventDefault();
@@ -245,25 +248,21 @@ const generateForm = (event) => {
     if (!parentFormNumber) {
       displayFields();
     } else {
-      // console.log(parentFormNumber, "parentFormNumber");
-      // console.log("parentAnswer", parentAnswer);
-      // console.log("currentConditionSymbol", currentConditionSymbol);
-      // console.log("defaultAnswer", defaultAnswer);
-      // console.log("`answer${parentFormNumber}`", `answer${parentFormNumber}`);
       const answerField = document.querySelector(
         `#radioAnswers${parentFormNumber}` && `#answer${parentFormNumber}`
       );
-
       const displayInnerForm = () => {
         let condition =
           `${defaultAnswer}` + currentConditionSymbol + `${parentAnswer}`;
         console.log("condition", condition);
-        // console.log(
-        //   `"${defaultAnswer}" ${currentConditionSymbol}"${parentAnswer}"`
-        // );
         if (condition) {
-          console.log("jest jest jest!");
           displayFields();
+          // const currentAnswerField = document.querySelector(
+          //   `#radioAnswers${i}` && `#answer${i}`
+          // );
+          // currentAnswerField.addEventListener("change", displayInnerForm);
+        } else {
+          console.log("different from default answer");
         }
       };
       answerField.addEventListener("change", displayInnerForm);
