@@ -240,32 +240,50 @@ const generateForm = (event) => {
       "Less than": "<",
     };
     let parentFormNumber = formToChange.parentNode.id.slice(4);
-    let parentAnswer = localStorage.getItem(`answer${parentFormNumber}`);
-    let currentConditionType = localStorage.getItem(`conditionSelectType${i}`);
-    let currentConditionSymbol = conditionTypes.Equals;
-    let defaultAnswer = localStorage.getItem(`conditionValue${i}`);
 
     if (!parentFormNumber) {
       displayFields();
     } else {
-      const answerField = document.querySelector(
-        `#radioAnswers${parentFormNumber}` && `#answer${parentFormNumber}`
-      );
-      const displayInnerForm = () => {
-        let condition =
-          `${defaultAnswer}` + currentConditionSymbol + `${parentAnswer}`;
-        console.log("condition", condition);
-        if (condition) {
-          displayFields();
-          // const currentAnswerField = document.querySelector(
-          //   `#radioAnswers${i}` && `#answer${i}`
-          // );
-          // currentAnswerField.addEventListener("change", displayInnerForm);
-        } else {
-          console.log("different from default answer");
+      // const answerField = document.querySelector(
+      //   `#radioAnswers${parentFormNumber}` && `#answer${parentFormNumber}`
+      // );
+
+      const displayInnerForm = (e) => {
+        let parentAnswer = localStorage.getItem(`answer${parentFormNumber}`);
+        let currentConditionType = localStorage.getItem(
+          `conditionSelectType${i}`
+        );
+        let currentConditionSymbol = conditionTypes.currentConditionType; // dont work
+        let defaultAnswer = localStorage.getItem(`conditionValue${i}`);
+
+        if (currentConditionType === "Equals") {
+          let condition = `${defaultAnswer}` === `${parentAnswer}`;
+          console.log("condition1", condition);
+          if (condition === true) {
+            displayFields();
+          }
+        } else if (currentConditionType === "Grater than") {
+          let condition = `${defaultAnswer}` > `${parentAnswer}`;
+          console.log("condition2", condition);
+          if (condition === true) {
+            displayFields();
+          }
+        } else if (currentConditionType === "Less than") {
+          let condition = `${defaultAnswer}` < `${parentAnswer}`;
+          console.log("condition3", condition);
+          if (condition === true) {
+            displayFields();
+          }
         }
       };
-      answerField.addEventListener("change", displayInnerForm);
+
+      let answerField = document.querySelector(
+        `#radioAnswers${parentFormNumber}` && `#answer${parentFormNumber}`
+      );
+      let answerForm = document.querySelector(`#newForm${parentFormNumber}`);
+
+      // answerField.addEventListener("change", displayInnerForm);
+      answerForm.addEventListener("change", displayInnerForm);
     }
   }
   const submitBtn = document.createElement("input");
