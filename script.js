@@ -281,7 +281,7 @@ const generateForm = (event) => {
   form.appendChild(submitBtn);
 
   const submit = () => {
-    form.innerText = "Dziękujemy za przesłanie formularza";
+    form.innerText = "Thank you for submitting the form";
   };
 
   submitBtn.addEventListener("click", submit);
